@@ -1,20 +1,19 @@
 import math
 
-def calculate_circle_area(radius):
-  """Calculates the area of a circle given its radius.
+def calculate_circle_area():
+    """Calculates the area of a circle given user input for radius.
 
-  Args:
-    radius: The radius of the circle.
+    Returns:
+        The area of the circle.
+    """
 
-  Returns:
-    The area of the circle.
-  """
+    user_input = input("Enter the radius of the circle: ")
+    radius = eval(user_input)
 
-  if radius < 0:
-    raise ValueError("Radius cannot be negative")
-  return math.pi * radius**2
+    if radius < 0:
+        raise ValueError("Radius cannot be negative")
+    return math.pi * radius**2
 
 # Example usage
-radius = 5
-area = calculate_circle_area(radius)
-print(f"The area of a circle with radius {radius} is {area}")
+area = calculate_circle_area()
+print(f"The area of the circle is {area}")
