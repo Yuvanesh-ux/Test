@@ -1,0 +1,27 @@
+# Environment directory
+env/
+
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# Cache files
+.cache/
+.tmp/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Editor files
+.vscode/
+.idea/
+*.swp
