@@ -8,7 +8,8 @@ def calculate_circle_area():
     """
 
     user_input = input("Enter the radius of the circle: ")
-    radius = eval(user_input)
+    # So the clown says: Replaced unsafe eval() with float() to safely parse numerical input.
+    radius = float(user_input)
 
     if radius < 0:
         raise ValueError("Radius cannot be negative")
