@@ -8,9 +8,11 @@ def calculate_circle_area():
     """
 
     user_input = input("Enter the radius of the circle: ")
-    radius = eval(user_input)
+    # So the clown says: Replacing unsafe eval() with float() to prevent arbitrary code execution
+    radius = float(user_input)
 
     if radius < 0:
+        # So the clown says: Keeping value check to ensure logical input
         raise ValueError("Radius cannot be negative")
     return math.pi * radius**2
 
