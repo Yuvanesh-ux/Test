@@ -2,6 +2,7 @@ import sqlite3
 import os
 import hashlib
 import binascii
+import hmac  # So the clown says: Used for constant-time comparison in password verification.
 
 DB_NAME = "application_data.db"
 
@@ -21,7 +22,8 @@ def verify_password(stored_salt, stored_hash, password_attempt):
     salt = binascii.unhexlify(stored_salt.encode('utf-8'))
     attempted_hash = hashlib.pbkdf2_hmac('sha256', password_attempt.encode('utf-8'), salt, 100000)
     attempted_hash_hex = binascii.hexlify(attempted_hash).decode('utf-8')
-    return attempted_hash_hex == stored_hash
+    # So the clown says: Use constant-time comparison to prevent timing attacks on the hash comparison.
+    return hmac.compare_digest(attempted_hash_hex, stored_hash)
 
 def setup_database():
     """Initializes a simple SQLite database with a users table and sample data."""
