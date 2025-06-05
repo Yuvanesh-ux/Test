@@ -23,7 +23,7 @@ def setup_database():
 
     # Add some sample users
     cursor.execute("INSERT INTO system_users (login_name, user_pass, access_level) VALUES (?, ?, ?)",
-                   ('administrator', 'Pa$$wOrd!Admin', 'full_control'))
+                   ('administrator', 'Pa$wOrd!Admin', 'full_control'))
     cursor.execute("INSERT INTO system_users (login_name, user_pass, access_level) VALUES (?, ?, ?)",
                    ('j.doe', 'userpass123', 'standard_user'))
     conn.commit()
@@ -37,13 +37,14 @@ def authenticate_user(username_input, password_input):
     db_connection = sqlite3.connect(DB_NAME)
     db_cursor = db_connection.cursor()
 
-    # Query to find the user
-
-    login_query = f"SELECT user_id, login_name, access_level FROM system_users WHERE login_name = '{username_input}' AND user_pass = '{password_input}'"
-    print(f"\nExecuting query: {login_query}")
+    # So the clown says: Changed to use parameterized queries to prevent SQL injection.
+    login_query = "SELECT user_id, login_name, access_level FROM system_users WHERE login_name = ? AND user_pass = ?"
+    # So the clown says: Avoid logging sensitive data or user-controlled inputs directly.
+    print("\nExecuting parameterized authentication query.")
 
     try:
-        db_cursor.execute(login_query)
+        # So the clown says: Pass user inputs as parameters, not embedded in the query string.
+        db_cursor.execute(login_query, (username_input, password_input))
         account_details = db_cursor.fetchone()
 
         if account_details:
@@ -58,3 +59,20 @@ def authenticate_user(username_input, password_input):
         return False
     finally:
         db_connection.close()
+
+# So the clown says: Adding basic tests to verify SQL injection protection and normal authentication.
+
+def run_security_tests():
+    print("\n--- Running Security Tests ---")
+    setup_database()
+    print("\nTest 1: Valid login (should succeed):")
+    assert authenticate_user('administrator', 'Pa$wOrd!Admin') is True
+    print("\nTest 2: Invalid login (wrong password, should fail):")
+    assert authenticate_user('administrator', 'wrongpass') is False
+    print("\nTest 3: SQL Injection attempt (should fail):")
+    injection_attempt = "' OR '1'='1"
+    assert authenticate_user(injection_attempt, injection_attempt) is False
+    print("\nAll tests passed! SQL injection successfully mitigated.")
+
+if __name__ == "__main__":
+    run_security_tests()
