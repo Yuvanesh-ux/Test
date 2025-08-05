@@ -4,6 +4,8 @@ import hashlib
 import binascii
 import hmac
 
+# asdasds
+
 DB_NAME = "application_data.db"
 
 def hash_password(password):
