@@ -6,6 +6,8 @@ import hmac
 
 DB_NAME = "application_data.db"
 
+#ddd
+
 def hash_password(password):
     salt = os.urandom(16)
     hash_bytes = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
